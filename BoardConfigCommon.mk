@@ -26,7 +26,7 @@ TARGET_ARCH_VARIANT_CPU := cortex-a9
 TARGET_CPU_SMP := true
 
 # Flags for Krait CPU
-COMMON_GLOBAL_CFLAGS += -D__ARM_USE_PLD -D__ARM_CACHE_LINE_SIZE=64 -DQCOM_BSP_CAMERA_ABI_HACK
+COMMON_GLOBAL_CFLAGS += -D__ARM_USE_PLD -D__ARM_CACHE_LINE_SIZE=64
 ifneq ($(VARIENT_REQUIRE_3.0_KERNEL),true)
 COMMON_GLOBAL_CFLAGS += -DNEW_ION_API
 endif
@@ -78,7 +78,6 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/
 
 # Camera
 COMMON_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_HARDWARE
-BOARD_CAMERA_USE_MM_HEAP := true
 
 # Workaround to avoid issues with legacy liblights on QCOM platforms
 TARGET_PROVIDES_LIBLIGHT := true
@@ -89,6 +88,9 @@ BOARD_HAVE_SAMSUNG_AUDIO := true
 BOARD_USES_FLUENCE_INCALL := true
 BOARD_USES_SEPERATED_AUDIO_INPUT := true
 TARGET_USES_QCOM_COMPRESSED_AUDIO := true
+
+# QCOM enhanced A/V
+TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
 # Kernel time optimization
 # temp remove - causing issues with short/long presses
