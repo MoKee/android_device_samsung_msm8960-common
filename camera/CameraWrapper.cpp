@@ -37,11 +37,15 @@
 static android::Mutex gCameraWrapperLock;
 static camera_module_t *gVendorModule = 0;
 
+static char **fixed_set_params = NULL;
+
 static int camera_device_open(const hw_module_t* module, const char* name,
                 hw_device_t** device);
 static int camera_device_close(hw_device_t* device);
 static int camera_get_number_of_cameras(void);
 static int camera_get_camera_info(int camera_id, struct camera_info *info);
+static int camera_send_command(struct camera_device * device, int32_t cmd,
+                int32_t arg1, int32_t arg2);
 
 static struct hw_module_methods_t camera_module_methods = {
         open: camera_device_open
@@ -113,8 +117,9 @@ static char * camera_fixup_getparams(int id, const char * settings)
     return ret;
 }
 
-char * camera_fixup_setparams(int id, const char * settings)
+char * camera_fixup_setparams(struct camera_device * device, const char * settings)
 {
+    int id = CAMERA_ID(device);
     bool isVideo = false;
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
@@ -148,9 +153,16 @@ char * camera_fixup_setparams(int id, const char * settings)
 #ifdef ENABLE_ZSL
     params.set(android::CameraParameters::KEY_ZSL, "on");
     params.set(android::CameraParameters::KEY_CAMERA_MODE, "1");
+#ifdef MAGIC_ZSL_1508
+    camera_send_command(device, 1508, 0, 0);
+#endif
 #endif
     android::String8 strParams = params.flatten();
-    char *ret = strdup(strParams.string());
+
+    if (fixed_set_params[id])
+        free(fixed_set_params[id]);
+    fixed_set_params[id] = strdup(strParams.string());
+    char *ret = fixed_set_params[id];
 
     ALOGD("%s: set parameters fixed up", __FUNCTION__);
     return ret;
@@ -335,7 +347,7 @@ int camera_cancel_auto_focus(struct camera_device * device)
 #ifndef ENABLE_ZSL
     return 0;
 #else
-    VENDOR_CALL(device, cancel_auto_focus);
+    return VENDOR_CALL(device, cancel_auto_focus);
 #endif
 }
 
@@ -370,7 +382,7 @@ int camera_set_parameters(struct camera_device * device, const char *params)
         return -EINVAL;
 
     char *tmp = NULL;
-    tmp = camera_fixup_setparams(CAMERA_ID(device), params);
+    tmp = camera_fixup_setparams(device, params);
 
 #ifdef LOG_PARAMETERS
     __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, tmp);
@@ -461,6 +473,11 @@ int camera_device_close(hw_device_t* device)
         goto done;
     }
 
+    for (int i = 0; i < camera_get_number_of_cameras(); i++) {
+        if (fixed_set_params[i])
+            free(fixed_set_params[i]);
+    }
+
     wrapper_dev = (wrapper_camera_device_t*) device;
 
     wrapper_dev->vendor->common.close((hw_device_t*)wrapper_dev->vendor);
@@ -503,6 +520,14 @@ int camera_device_open(const hw_module_t* module, const char* name,
 
         cameraid = atoi(name);
         num_cameras = gVendorModule->get_number_of_cameras();
+
+        fixed_set_params = (char **) malloc(sizeof(char *) * num_cameras);
+        if (!fixed_set_params) {
+            ALOGE("parameter memory allocation fail");
+            rv = -ENOMEM;
+            goto fail;
+        }
+        memset(fixed_set_params, 0, sizeof(char *) * num_cameras);
 
         if(cameraid > num_cameras)
         {
