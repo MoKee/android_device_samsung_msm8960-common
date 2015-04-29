@@ -49,8 +49,8 @@ BOARD_BATTERY_DEVICE_NAME := "battery"
 BOARD_CHARGING_CMDLINE_NAME := "androidboot.bootchg"
 BOARD_CHARGING_CMDLINE_VALUE := "true"
 
-# CMHW
-BOARD_HARDWARE_CLASS += device/samsung/msm8960-common/cmhw
+# MKHW
+BOARD_HARDWARE_CLASS += device/samsung/msm8960-common/mkhw
 
 # Display
 BOARD_EGL_CFG := device/samsung/msm8960-common/configs/egl.cfg
