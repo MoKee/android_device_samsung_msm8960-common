@@ -102,7 +102,6 @@ BOARD_SEPOLICY_UNION += \
     device.te \
     file.te \
     file_contexts \
-    gamma_dev.te \
     genfs_contexts \
     hostapd.te \
     init_shell.te \
@@ -135,3 +134,7 @@ BOARD_SEPOLICY_UNION += \
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 BOARD_VOLD_MAX_PARTITIONS := 28
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
+
+# Build our own PowerHAL
+TARGET_POWERHAL_VARIANT :=
+TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/msm8960-common/power/power_ext.c
