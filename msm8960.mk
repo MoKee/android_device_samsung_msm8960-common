@@ -50,14 +50,15 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
+    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video_le.xml
 
 # System Properties
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    qcom.hw.aac.encoder=true
+    qcom.hw.aac.encoder=true \
+    ro.config.vc_call_vol_steps=10
 
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.composition.type=dyn \
@@ -184,11 +185,6 @@ PRODUCT_PACKAGES += \
     init.qcom.rc \
     init.qcom.usb.rc \
     ueventd.qcom.rc
-
-# Thermal
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/thermald-8960.conf:system/etc/thermald-8960.conf \
-    $(LOCAL_PATH)/configs/thermald-8960.conf:system/etc/thermald.conf
 
 # USB
 PRODUCT_PACKAGES += \
