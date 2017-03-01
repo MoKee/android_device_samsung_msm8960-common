@@ -29,11 +29,6 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01500000
 BOARD_KERNEL_PAGESIZE := 2048
 TARGET_KERNEL_SOURCE := kernel/samsung/d2
 
-# Enable dex-preoptimization to speed up first boot sequence
-ifeq ($(HOST_OS),linux)
-  WITH_DEXPREOPT := true
-endif
-
 # Audio
 BOARD_USES_ALSA_AUDIO := true
 
@@ -61,7 +56,6 @@ NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 TARGET_DISPLAY_INSECURE_MM_HEAP := true
 TARGET_DISPLAY_USE_RETIRE_FENCE := true
 TARGET_NO_ADAPTIVE_PLAYBACK := true
-TARGET_NO_INITLOGO := true
 
 # Use dlmalloc instead of jemalloc for mallocs
 MALLOC_SVELTE := true
