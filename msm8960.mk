@@ -70,17 +70,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.radio.no_wait_for_card=0
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.rild.nitz_plmn="" \
-    persist.rild.nitz_long_ons_0="" \
-    persist.rild.nitz_long_ons_1="" \
-    persist.rild.nitz_long_ons_2="" \
-    persist.rild.nitz_long_ons_3="" \
-    persist.rild.nitz_short_ons_0="" \
-    persist.rild.nitz_short_ons_1="" \
-    persist.rild.nitz_short_ons_2="" \
-    persist.rild.nitz_short_ons_3=""
-
-PRODUCT_PROPERTY_OVERRIDES += \
     persist.timed.enable=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -88,21 +77,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Configure libhwui
 PRODUCT_PROPERTY_OVERRIDES += \
-	ro.hwui.texture_cache_size=48 \
-	ro.hwui.layer_cache_size=32 \
-	ro.hwui.r_buffer_cache_size=4 \
-	ro.hwui.path_cache_size=24 \
-	ro.hwui.gradient_cache_size=1 \
-	ro.hwui.drop_shadow_cache_size=5 \
-	ro.hwui.texture_cache_flushrate=0.5 \
-	ro.hwui.text_small_cache_width=1024 \
-	ro.hwui.text_small_cache_height=1024 \
-	ro.hwui.text_large_cache_width=2048 \
-	ro.hwui.text_large_cache_height=1024
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.cwm.enable_key_repeat=true \
-    ro.cwm.repeatable_keys=114,115
+    ro.hwui.texture_cache_size=48 \
+    ro.hwui.layer_cache_size=32 \
+    ro.hwui.r_buffer_cache_size=4 \
+    ro.hwui.path_cache_size=24 \
+    ro.hwui.gradient_cache_size=1 \
+    ro.hwui.drop_shadow_cache_size=5 \
+    ro.hwui.texture_cache_flushrate=0.5 \
+    ro.hwui.text_small_cache_width=1024 \
+    ro.hwui.text_small_cache_height=1024 \
+    ro.hwui.text_large_cache_width=2048 \
+    ro.hwui.text_large_cache_height=1024
 
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
