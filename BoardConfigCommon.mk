@@ -63,8 +63,8 @@ EXTENDED_FONT_FOOTPRINT := true
 # Includes
 TARGET_SPECIFIC_HEADER_PATH += device/samsung/msm8960-common/include
 
-# Build samsung PowerHAL
-TARGET_POWERHAL_VARIANT := samsung
+# Build our own PowerHAL
+TARGET_POWERHAL_VARIANT :=
 
 # Partitions
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -79,6 +79,9 @@ BOARD_USES_MMCUTILS := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_RECOVERY_SWIPE := true
+
+# SDClang
+TARGET_USE_SDCLANG := true
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
